@@ -15,4 +15,4 @@ Steps to get this repository working:
 2. Upload [this file](FactoryoftheFuture_Arduino/FactoryoftheFuture_Arduino.ino) to an Arduino Uno.
 3. Run [this file](FactoryofTheFuture_Processing/FactoryofTheFuture_Processing.pde) in Processing.
 4. Open [http://localhost/website/index.html](http://localhost/website/index.html).
-5. Provided LEDs are connected to the relevant pins of the Arduino as outlined in the Arduino sketch, the web page should control the Arduino.
+5. Provided LEDs are connected to the relevant pins of the Arduino as outlined in the Arduino sketch, the web page should control the Arduino by the command flow shown in [this image](WebsiteCommandFlow.pdf).

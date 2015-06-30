@@ -5,8 +5,6 @@ This repository provides a means of controlling anh Arduino Uno for the IERG Mod
 
 To use it, the following are required:
 
-Wampserver: http://www.wampserver.com/en/
-
-Processing: https://processing.org/download/
-
-Arduino IDE: https://www.arduino.cc/en/Main/Software
+1. Wampserver: http://www.wampserver.com/en/
+2. Processing: https://processing.org/download/
+3. Arduino IDE: https://www.arduino.cc/en/Main/Software

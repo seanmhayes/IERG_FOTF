@@ -12,4 +12,4 @@ To use it, the following are required:
 Steps to get this repository working:
 
 1. Once Wampserver is running, browse to C:\wamp\www and create a new folder called "website". Paste the contents of [this section](Website_Files) of the respository into "website".
-
+2. Upload [this file](FactoryoftheFuture_Arduino/FactoryoftheFuture_Arduino.ino) to an Arduino Uno.

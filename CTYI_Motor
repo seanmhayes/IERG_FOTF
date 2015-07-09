@@ -1,0 +1,18 @@
+int motorpin = 9;
+int sensorpin = A0;
+int sensorvalue = 0;
+
+void setup(){
+	
+	pinMode(motorpin,OUTPUT);
+	pinMode(sensorpin,INPUT);
+	
+}
+
+void loop(){
+	
+	sensorvalue = analogRead(sensorpin);
+	
+	analogWrite(motorpin,sensorvalue);
+	
+}

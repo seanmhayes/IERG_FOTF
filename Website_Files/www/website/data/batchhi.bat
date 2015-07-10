@@ -1,0 +1,1 @@
+COPY "C:\wamp\www\website\data\WindSpeedhi.csv" "C:\wamp\www\website\data\WindSpeed.csv"

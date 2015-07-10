@@ -1,0 +1,21 @@
+CSV Headers:
+
+0windSpLo, 1windSpHi, 2windProdLo, 3windProdHi, 4baseLoad, 5compLoad, 6prLineLoad, 7boilerGas, 8boilerTemp, 9reactorGas, 10reactorTemp
+
+Ajax call on loadData.phpreturns:
+0time,1windSp, 2windProd, 3baseLoad, 4compLoad, 5prLineLoad, 6totalLoad, 7esbProd, 8boilerGas, 9boilerTemp, 10reactorGas, 11reactorTemp
+
+Graphs:
+Note: data[id] refers to the data returned from ajax call (above).
+
+compLoad: ALWAYS ON
+
+Case: Wind IS blowing
+
+windSpLo changes to windSpHi[1]
+windProd changes from 0 to windProd[2]
+compLoad changes to HI data[5]
+esbProd: (baseLoad[3] + compLoad[4] + prLineLoad[5]) - WindProd
+
+
+Total Elec Load 

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- EXTERNAL LIBS-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="https://www.google.com/jsapi"></script>
+
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.js"></script>
+		<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+
+		<script>
+
+			// onload callback
+			// function drawChart() {
+			// 	var public_key = 'roblD1WnY6HzxgDOv67L';
+			// 	var options = {
+			// 		title: 'Ringaskiddy Wind'
+			// 	};
+
+			// 	//var chart = new.google.visualization.LineChart(document.getElementById('chart'));
+				
+
+			// 	function updateChart() {
+			// 		$.ajax({
+			// 			url: 'https://data.sparkfun.com/output/' + public_key + '.json',
+			// 			data: {page: 1},
+			// 			dataType: 'jsonp',
+			// 			success: function(response) {
+			// 				var data = new google.visualization.DataTable();
+
+			// 				data.addColumn('datetime', 'Time');
+			// 				data.addColumn('number', 'Wind Speed High');
+			// 				data.addColumn('number', 'Wind Speed Low');
+
+			// 				$.each(response, function (i, row) {
+							
+			// 				data.addRow([
+			// 					(new Date(row.timestamp)),
+			// 					parseFloat(row.highwind),
+			// 					parseFloat(row.lowwind)
+			// 				]);
+			// 				});
+							
+			// 				var chart = new google.visualization.LineChart($('#chart').get(0));
+			// 				chart.draw(data);
+			// 				setTimeout(updateChart, 2000);
+
+			// 			}
+			// 		});
+			// 	}
+			// 	updateChart();
+			// }
+
+
+			  var public_key = 'roblD1WnY6HzxgDOv67L';
+
+			  // JSONP request
+			  var jsonData = $.ajax({
+			    url: 'https://data.sparkfun.com/output/' + public_key + '.json',
+			    data: {page: 1},
+			    dataType: 'jsonp',
+			    success: function(response) {
+			      var data = new google.visualization.DataTable();
+
+	// 		      data.addColumn('datetime', 'Time');
+	// 		      data.addColumn('number', 'WindSpeed High');
+	// 		      data.addColumn('number', 'Wind Speed Low');
+
+	// 		      $.each(response, function (i, row) {
+	// 		        data.addRow([
+	// 		          (new Date(row.timestamp)),
+	// 		          parseFloat(row.highwind),
+	// 		          parseFloat(row.lowwind)
+	// 		        ]);
+	// 		      });
+
+	// 		      var chart = new google.visualization.LineChart($('#chart').get(0));
+
+	// 		      chart.draw(data, {
+	// 		        title: 'Ringaskiddy Wind'
+	// 		      });
+
+	// 		      setTimeout(updateChart, 20);
+	// 		    }
+	// }).done(function (results) {
+
+		//var data = new google.visualization.DataTable();
+
+		data.addColumn('datetime', 'Time');
+		data.addColumn('number', 'WindSpeed High');
+		data.addColumn('number', 'Wind Speed Low');
+
+		$.each(results, function (i, row) {
+		  data.addRow([
+		    (new Date(row.timestamp)),
+		    parseFloat(row.highwind),
+		    parseFloat(row.lowwind)
+		  ]);
+		});
+
+		var chart = new google.visualization.LineChart($('#chart').get(0));
+
+		chart.draw(data, {
+		  title: 'Ringaskiddy Wind'
+		});
+
+			  });
+
+			}
+
+			// load chart lib
+			google.load('visualization', '1', {
+			  packages: ['corechart']
+			});
+
+			// call drawChart once google charts is loaded
+			google.setOnLoadCallback(drawChart);
+
+		</script>
+
+	</head>
+	<body>
+		<!-- <div id="chart" style="width: 100%;"></div> -->
+		<div id="container" style="width: 800px; height: 400px; margin: 0 auto"></div>
+	</body>
+</html>

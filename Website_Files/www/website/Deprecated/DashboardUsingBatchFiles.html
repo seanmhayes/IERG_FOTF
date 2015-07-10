@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Highcharts Example</title>
+		
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.js"></script>
+		<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+		
+		
+		<!-- 2. Add the JavaScript to initialize the chart on document ready -->
+		
+		<script>
+		var chart; // global
+
+		 //Request data from the server, add it to the graph and set a timeout to request again
+		function requestData() {
+			$.ajax({
+				url: 'datatest.php',
+				success: function(point) {
+					var series = chart.series[0],
+						shift = series.data.length > 20; // shift if the series is longer than 20
+
+					// add the point
+					chart.series[0].addPoint(eval(point), true, shift);
+					
+					// call it again after one second
+					setTimeout(requestData, 1000);	
+				},
+				cache: false
+			});
+		}
+		
+
+      //Draw the inital Chart - formatting
+		$(document).ready(function() {
+			chart = new Highcharts.Chart({
+				chart: {
+					renderTo: 'container',
+					defaultSeriesType: 'line',
+					events: {
+						load: requestData
+					}
+				},
+				title: {
+					text: 'Ringaskiddy Wind Data'
+				},
+				xAxis: {
+					type: 'datetime',
+					tickPixelInterval: 150,
+					maxZoom: 20 * 1000
+				},
+				yAxis: {
+					minPadding: 0.2,
+					maxPadding: 0.2,
+					title: {
+						text: 'WindSpeed (m/s)',
+					},
+					plotLines: [{
+						width: 2,
+						color: '#808080'
+					}],
+				},
+				series: [{
+					name: 'WindSpeed',
+					data: []
+				}]
+			});		
+		});
+
+      // Buttons for controlling Dashboard/Model
+
+      $(function(){
+         $('#loWindButton').click(function(){
+            $.ajax({
+               url: 'batchlo.php',
+               type: 'post', // GET or POST
+               error: function() {
+               // This callback is called if your AJAX query has failed
+               alert("Error!");
+               }
+            });
+         });
+      });
+
+      $(function(){
+         $('#hiWindButton').click(function(){
+            $.ajax({
+               url: 'batchhi.php',
+               type: 'post', // GET or POST
+               error: function() {
+               // This callback is called if your AJAX query has failed
+               alert("Error!");
+               }
+            });
+         });
+      });
+
+      $(function(){
+         $('#testButtonlo').click(function(){
+            $.ajax({
+               url: 'ajaxTesting.php',
+               type: 'post', // GET or POST
+               data: { 
+                  hiorlo: "lo"
+               },
+               error: function() {
+               // This callback is called if your AJAX query has failed
+               alert("Error!");
+               }
+            });
+         });
+      });
+
+      $(function(){
+         $('#testButtonhi').click(function(){
+            $.ajax({
+               url: 'ajaxTesting.php',
+               type: 'post', // GET or POST
+               data: { 
+                  hiorlo: "hi"
+               },
+               error: function() {
+               // This callback is called if your AJAX query has failed
+               alert("Error!");
+               }
+            });
+         });
+      });
+
+		</script>
+		
+	</head>
+	<body>
+		
+		<!-- 3. Add the container -->
+      <div id="container" style="width: 800px; height: 400px; margin: 0 auto"></div>
+
+		<button id="loWindButton">Low Wind Speeds</button>
+      <button id="hiWindButton">High Wind Speeds</button>
+      <button id ="testButtonlo">TESTBUTTONLOW</button>
+      <button id ="testButtonhi">TESTBUTTONHigh</button>
+
+	</body>
+</html>

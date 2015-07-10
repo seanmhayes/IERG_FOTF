@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>DashBoard - Manufacturing Plant</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="Description" lang="en" content="ADD SITE DESCRIPTION">
+		<meta name="author" content="ADD AUTHOR INFORMATION">
+		<meta name="robots" content="index, follow">
+
+		<!-- icons -->
+
+		<!-- Bootstrap Core CSS file -->
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+
+		<!-- Override CSS file - add your own CSS rules -->
+		<link rel="stylesheet" href="assets/css/styles.css">
+
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.js"></script>
+		<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+		<script src="HighCharts\js\themes/gray.js"></script>
+
+		<script>
+		var windSpeedVals;
+		var windProdValss;
+		var baseLoadValss;
+		var compLoadVals;
+		var prLineLoadVals;
+		var totalLoadVals;
+		var esbProdVals;
+
+		 //Request data from the server, add it to the graph and set a timeout to request again
+		function requestWindSpData() {
+			$.ajax({
+				url: 'loadAllData.php',
+				success: function(data) {
+
+					//Set Axis Extremes
+					var chart = $('#windSpeedChart').highcharts();
+					chart.yAxis[0].setExtremes(0,30);
+					
+					// shift if the series is longer than 20
+					var series = windSpeedChart.series[0],
+					shift = series.data.length > 20;
+					
+					//Parse the Data
+					var data = eval(data);
+
+					// evaluate the data for each point - pairs of timestamp & data					
+					windSpeedVals = [data[0],data[1]];
+					
+					//Add to the various charts/series
+					windSpeedChart.series[0].addPoint(windSpeedVals, true, shift);
+					
+					// call it again after set refresh period
+					setTimeout(requestWindSpData, 3000);
+				},
+				cache: false
+			});
+		}
+
+		function requestProdData() {
+			$.ajax({
+				url: 'loadAllData.php',
+				success: function(data) {
+
+					//Set Axis Extremes
+					var chart = $('#prodChart').highcharts();
+					chart.yAxis[0].setExtremes(0,2800);
+
+					// shift if the series is longer than 20
+					var totalProdSeries = prodChart.series[0],
+					shift = totalProdSeries.data.length > 20;
+
+					//Parse the Data
+					var data = eval(data);
+
+					// evaluate the data for each point - pairs of timestamp & data					
+					windProdVals = [data[0], data[2]];
+					esbProdVals = [data[0], data[7]];
+					totalProdVals = [data[0], data[6]]
+					
+					//Add to the various charts/series
+					prodChart.series[0].addPoint(windProdVals, true, shift);
+					prodChart.series[1].addPoint(esbProdVals, true, shift);
+					prodChart.series[2].addPoint(totalProdVals, true, shift);
+
+					// call it again after set refresh period
+					setTimeout(requestProdData, 2000);
+				},
+				cache: false
+			});
+		}
+
+		function requestLoadData() {
+			$.ajax({
+				url: 'loadAllData.php',
+				success: function(data) {
+
+					//Set Axis Extremes
+					var chart = $('#loadChart').highcharts();
+					chart.yAxis[0].setExtremes(0,3000);
+
+					// shift if the series is longer than 20
+					var baseLoadSeries = loadChart.series[0],
+					shift = baseLoadSeries.data.length > 20;
+
+					//Parse the Data
+					var data = eval(data);
+
+					// evaluate the data for each point - pairs of timestamp & data					
+					baseLoadVals = [data[0], data[3]];
+					compLoadVals = [data[0], data[4]];
+					prLineLoadVals = [data[0], data[5]];
+					totalLoadVals = [data[0], data[6]];
+					
+					//Add to the various charts/series
+					loadChart.series[0].addPoint(baseLoadVals, true, shift);
+					loadChart.series[1].addPoint(compLoadVals, true, shift);
+					loadChart.series[2].addPoint(prLineLoadVals, true, shift);
+					loadChart.series[3].addPoint(totalLoadVals, true, shift);
+					
+					// call it again after set refresh period
+
+					setTimeout(requestLoadData, 3000);
+				},
+				cache: false
+			});
+		}
+
+		function requestReactorGasData() {
+			$.ajax({
+				url: 'loadAllData.php',
+				success: function(data) {
+
+					//Set Axis Extremes
+					var chart = $('#reactorGasChart').highcharts();
+					chart.yAxis[0].setExtremes(0,500);
+					
+					// shift if the series is longer than 20
+					var series = reactorGasChart.series[0],
+					shift = series.data.length > 20;
+					
+					//Parse the Data
+					var data = eval(data);
+
+					// evaluate the data for each point - pairs of timestamp & data					
+					reactorGasVals = [data[0],data[10]];
+					
+					//Add to the various charts/series
+					reactorGasChart.series[0].addPoint(reactorGasVals, true, shift);
+					
+					// call it again after set refresh period
+					setTimeout(requestReactorGasData, 1000);
+				},
+				cache: false
+			});
+		}
+
+		function requestBoilerGasData() {
+			$.ajax({
+				url: 'loadAllData.php',
+				success: function(data) {
+
+					//Set Axis Extremes
+					var chart = $('#boilerGasChart').highcharts();
+					chart.yAxis[0].setExtremes(0,600);
+					
+					// shift if the series is longer than 20
+					var series = boilerGasChart.series[0],
+					shift = series.data.length > 20;
+					
+					//Parse the Data
+					var data = eval(data);
+
+					// evaluate the data for each point - pairs of timestamp & data					
+					boilerGasVals = [data[0],data[8]];
+					
+					//Add to the various charts/series
+					boilerGasChart.series[0].addPoint(boilerGasVals, true, shift);
+					
+					// call it again after set refresh period
+					setTimeout(requestBoilerGasData, 1000);
+				},
+				cache: false
+			});
+		}
+
+		// function requestBoilerTempData() {
+		// 	$.ajax({
+		// 		url: 'loadAllData.php',
+		// 		success: function(data) {
+					
+		// 			// shift if the series is longer than 20
+		// 			var series = boilerTempChart.series[0],
+		// 			shift = series.data.length > 20;
+					
+		// 			//Parse the Data
+		// 			var data = eval(data);
+
+		// 			// evaluate the data for each point - pairs of timestamp & data					
+		// 			boilerTempVals = [data[0],data[9]];
+					
+		// 			//Add to the various charts/series
+		// 			boilerTempChart.series[0].addPoint(boilerTempVals, true, shift);
+					
+		// 			// call it again after set refresh period
+		// 			setTimeout(requestBoilerTempData, 7000);
+		// 		},
+		// 		cache: false
+		// 	});
+		// }
+
+		// function requestReactorTempData() {
+		// 	$.ajax({
+		// 		url: 'loadAllData.php',
+		// 		success: function(data) {
+					
+		// 			// shift if the series is longer than 20
+		// 			// var series = reactorTempChart.series[0],
+		// 			// shift = series.data.length > 20;
+					
+		// 			//Parse the Data
+		// 			var data = eval(data);
+
+		// 			// evaluate the data for each point - pairs of timestamp & data					
+		// 			reactorTempVals = [data[0],data[10]];
+					
+		// 			//Add to the various charts/series
+		// 			reactorTempChart.series[0].removePoint(0);
+		// 			reactorTempChart.series[0].addPoint(reactorTempVals, true);
+					
+		// 			// call it again after set refresh period
+		// 			setTimeout(requestReactorTempData, 2000);
+		// 		},
+		// 		cache: false
+		// 	});
+		// }
+
+
+      	//Draw the inital Charts - formatting
+		$(document).ready(function() {
+
+			windSpeedChart = new Highcharts.Chart({
+				chart: {
+					renderTo: 'windSpeedChart',
+					events: {
+						load: requestWindSpData
+					}
+				},
+				title: {
+					text: 'Ringaskiddy Wind Data'
+				},
+				xAxis: {
+					type: 'datetime',
+					tickPixelInterval: 150,
+					maxZoom: 20 * 1000
+				},
+				yAxis: {
+					title: {
+						text: 'WindSpeed (m/s)',
+					},
+				},
+				series: [{
+					name: 'WindSpeed',
+				}]
+			});
+
+			loadChart = new Highcharts.Chart({
+				chart: {
+					renderTo: 'loadChart',
+					events: {
+						load: requestLoadData
+					}
+				},
+				title: {
+					text: 'Current Electrical Usage'
+				},
+				xAxis: {
+					type: 'datetime',
+					tickPixelInterval: 150,
+					maxZoom: 20 * 1000
+				},
+				yAxis: {
+					title: {
+						text: 'Load (kW)',
+					},
+				},
+				series: [{
+					name: 'Base Load'
+				},{
+					name: 'Compressor'
+				},{
+					name: 'Production Line'
+				},{
+					name: 'Total Usage'
+				}]
+			});
+
+			prodChart = new Highcharts.Chart({
+				chart: {
+					renderTo: 'prodChart',
+					events: {
+						load: requestProdData
+					}
+				},
+				title: {
+					text: 'Current Electrical Sources'
+				},
+				xAxis: {
+					type: 'datetime',
+					tickPixelInterval: 150,
+					maxZoom: 20 * 1000
+				},
+				yAxis: {
+					title: {
+						text: 'Producing (kW)',
+					},
+				},
+				series: [{
+					name: 'Wind Production'
+				},{
+					name: 'Drawing from ESB'
+				},{
+					name: 'Total Electrical Usage'
+				}]
+			});
+
+			boilerGasChart = new Highcharts.Chart({
+				chart: {
+					renderTo: 'boilerGasChart',
+					events: {
+						load: requestBoilerGasData
+					}
+				},
+				title: {
+					text: 'Current Boiler Gas Usage'
+				},
+				xAxis: {
+					type: 'datetime',
+					tickPixelInterval: 150,
+					maxZoom: 20 * 1000
+				},
+				yAxis: {
+					title: {
+						text: 'Usage (kW)',
+					},
+				},
+				series: [{
+					name: 'Boiler Gas Usage'
+				}]
+			});
+
+			reactorGasChart = new Highcharts.Chart({
+				chart: {
+					renderTo: 'reactorGasChart',
+					events: {
+						load: requestReactorGasData
+					}
+				},
+				title: {
+					text: 'Current Reactor Heat Usage'
+				},
+				xAxis: {
+					type: 'datetime',
+					tickPixelInterval: 150,
+					maxZoom: 20 * 1000
+				},
+				yAxis: {
+					title: {
+						text: 'Usage (kW)',
+					},
+				},
+				series: [{
+					name: 'Reactor Heat Usage'
+				}]
+			});
+		});
+
+		$(function(){
+	        	$('#windSpeedLoButton').click(function(){
+	        		var redirectWindow = window.open('http://localhost/website/windled.php?state=0', '_blank');
+					redirectWindow.location;
+					redirectWindow.close();
+					$.ajax({
+					   url: 'loadAllData.php',
+					   type: 'post', // GET or POST
+					   data: { 
+					      windSp: "lo"
+					   },
+					   error: function() {
+					   // This callback is called if your AJAX query has failed
+					   alert("Error!");
+					   }
+					});
+	         	});
+	      	});
+
+			$(function(){
+				$('#windSpeedHiButton').click(function(){
+					var redirectWindow = window.open('http://localhost/website/windled.php?state=1', '_blank');
+					redirectWindow.location;
+					redirectWindow.close();
+					$.ajax({
+					   url: 'loadAllData.php',
+					   type: 'post', // GET or POST
+					   data: { 
+					      windSp: "hi"
+					   },
+					   error: function() {
+					   // This callback is called if your AJAX query has failed
+					   alert("Error!");
+					   }
+					});
+				});
+			});
+
+			$(function(){
+				$('#prLineOnButton').click(function(){
+					var redirectWindow = window.open('http://localhost/website/fischerled.php?state=1', '_blank');
+					redirectWindow.location;
+					redirectWindow.close();
+					$.ajax({
+					   url: 'loadAllData.php',
+					   type: 'post', // GET or POST
+					   data: { 
+					      prLine: "on"
+					   },
+					   error: function() {
+					   // This callback is called if your AJAX query has failed
+					   alert("Error!");
+					   }
+					});
+				});
+	      	});
+
+			$(function(){
+				$('#prLineOffButton').click(function(){
+					var redirectWindow = window.open('http://localhost/website/fischerled.php?state=0', '_blank');
+					redirectWindow.location;
+					redirectWindow.close();
+					$.ajax({
+					   url: 'loadAllData.php',
+					   type: 'post', // GET or POST
+					   data: { 
+					      prLine: "off"
+					   },
+					   error: function() {
+					   // This callback is called if your AJAX query has failed
+					   alert("Error!");
+					   }
+					});
+				});
+	      	});
+
+	      	$(function(){
+				$('#compOnButton').click(function(){
+					var redirectWindow = window.open('http://localhost/website/compressorled.php?state=1', '_blank');
+					redirectWindow.location;
+					redirectWindow.close();
+					$.ajax({
+					   url: 'loadAllData.php',
+					   type: 'post', // GET or POST
+					   data: { 
+					      comp: "on"
+					   },
+					   error: function() {
+					   // This callback is called if your AJAX query has failed
+					   alert("Error!");
+					   }
+					});
+				});
+      		});
+
+	      	$(function(){
+				$('#compOffButton').click(function(){
+					var redirectWindow = window.open('http://localhost/website/compressorled.php?state=0', '_blank');
+					redirectWindow.location;
+					redirectWindow.close();
+					$.ajax({
+					   url: 'loadAllData.php',
+					   type: 'post', // GET or POST
+					   data: { 
+					      comp: "off"
+					   },
+					   error: function() {
+					   // This callback is called if your AJAX query has failed
+					   alert("Error!");
+					   }
+					});
+				});
+	      	});
+		
+		
+		</script>
+	</head>
+	<body>
+
+		<!-- Navigation -->
+	    
+		<!-- /.navbar -->
+
+		<!-- Page Content -->
+		<div style="margin-left:80px;margin-right:80px;">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="page-header">
+						<h1>Manufacturing Plant Live Dashboard</h1>
+					</div>
+				</div>
+			</div>
+			<!-- /.row -->
+			<div class="row">
+				<div class="col-lg-4">
+					<div id="windSpeedChart" class="img-responsive thumbnail" ></div>
+				</div>
+				<div class="col-lg-4">
+					<div id="prodChart" class="img-responsive thumbnail" ></div>
+				</div>
+				<div class="col-lg-4">
+					<div id="loadChart" class="img-responsive thumbnail"></div>
+				</div>
+			</div>
+			
+			<!-- /.row -->
+
+			<div class="row">
+				<div class="col-lg-4">
+					<div id="reactorGasChart" class="img-responsive thumbnail" ></div>					
+				</div>
+				<div class="col-lg-4">
+					<div id="boilerGasChart" class="img-responsive thumbnail" ></div>
+				</div>
+				<div class="col-lg-4">
+					<div class="row">
+						<div class="col-lg-4">
+							<button class="btn btn-primary btn-lg" style="width:180px;" id ="windSpeedHiButton">Strong Wind</button>
+						</div>
+						<div class="col-lg-4">
+	      					<button class="btn btn-primary btn-lg" style="width:180px;" id ="windSpeedLoButton">Wind Not Blowing</button>
+	      				</div>
+	      				<div class="col-lg-4">
+	      					<button class="btn btn-primary btn-lg" style="width:180px;" id ="prLineOnButton">Production Line ON</button>
+      					</div>
+      				</div>
+      				<div class="row">
+	      				<div class="col-lg-4">
+	      					<button class="btn btn-primary btn-lg" style="width:180px;" id ="prLineOffButton">Prod. Line OFF</button>
+	      				</div>
+	      				<div class="col-lg-4">
+	      					<button class="btn btn-primary btn-lg" style="width:180px;" id ="compOnButton">Compressors ON</button>
+	      				</div>
+	      				<div class="col-lg-4">
+	      					<button class="btn btn-primary btn-lg" style="width:180px;" id ="compOffButton">Compressors OFF</button>
+	      				</div>
+	      			</div>
+	      			<div class="row">
+	      				<div class="col-lg-12">
+		      				<img src="images\IERG_Logo.jpg" style="padding-top:10px;">
+		      				<img src="images\MaREI_Logo.jpg" style="padding-top:10px;">
+		      				<img src="images\UCC_LOGO.png" style="padding-top:10px;">
+		      			</div>
+	      			</div>
+				</div>
+				<!-- /.row -->
+
+				<div class="row">
+					<div class="col-lg-6"></div>
+				</div>
+			<!-- /.row -->
+			<!-- /.row -->
+			</div>
+		</div>
+		<!-- /.container-fluid -->
+
+		<!-- Bootstrap Core scripts -->
+		
+  </body>
+</html>
+

@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Control Centre</title>
+		
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.js"></script>
+		
+		<script>
+			// Buttons for controlling Dashboard/Model
+			$(function(){
+	        	$('#windSpeedHiButton').click(function(){
+					$.ajax({
+					   url: 'loadAllData.php',
+					   type: 'post', // GET or POST
+					   data: { 
+					      windSp: "lo"
+					   },
+					   error: function() {
+					   // This callback is called if your AJAX query has failed
+					   alert("Error!");
+					   }
+					});
+	         	});
+	      	});
+
+			$(function(){
+				$('#windSpeedLoButton').click(function(){
+					$.ajax({
+					   url: 'loadAllData.php',
+					   type: 'post', // GET or POST
+					   data: { 
+					      windSp: "hi"
+					   },
+					   error: function() {
+					   // This callback is called if your AJAX query has failed
+					   alert("Error!");
+					   }
+					});
+				});
+			});
+
+			$(function(){
+				$('#prLineOnButton').click(function(){
+					$.ajax({
+					   url: 'loadAllData.php',
+					   type: 'post', // GET or POST
+					   data: { 
+					      prLine: "on"
+					   },
+					   error: function() {
+					   // This callback is called if your AJAX query has failed
+					   alert("Error!");
+					   }
+					});
+				});
+	      	});
+
+			$(function(){
+				$('#prLineOffButton').click(function(){
+					$.ajax({
+					   url: 'loadAllData.php',
+					   type: 'post', // GET or POST
+					   data: { 
+					      prLine: "off"
+					   },
+					   error: function() {
+					   // This callback is called if your AJAX query has failed
+					   alert("Error!");
+					   }
+					});
+				});
+	      	});
+
+	      	$(function(){
+				$('#compOnButton').click(function(){
+					$.ajax({
+					   url: 'loadAllData.php',
+					   type: 'post', // GET or POST
+					   data: { 
+					      comp: "on"
+					   },
+					   error: function() {
+					   // This callback is called if your AJAX query has failed
+					   alert("Error!");
+					   }
+					});
+				});
+      		});
+
+	      	$(function(){
+				$('#compOffButton').click(function(){
+					$.ajax({
+					   url: 'loadAllData.php',
+					   type: 'post', // GET or POST
+					   data: { 
+					      comp: "off"
+					   },
+					   error: function() {
+					   // This callback is called if your AJAX query has failed
+					   alert("Error!");
+					   }
+					});
+				});
+	      	});
+	    </script>
+
+
+	</head>
+
+	<body>
+
+      <button id ="windSpeedLoButton">Wind UP</button>
+      <button id ="windSpeedHiButton">Wind LOW</button>
+
+      <button id ="prLineOnButton">Prod. Line ON</button>
+      <button id ="prLineOffButton">Prod. Line OFF</button>
+
+      <button id ="compOnButton">Compressor ON</button>
+      <button id ="compOffButton">Compressor OFF</button>
+
+	</body>
+</html>

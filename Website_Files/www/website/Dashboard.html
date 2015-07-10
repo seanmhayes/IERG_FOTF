@@ -1,0 +1,388 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Highcharts Example</title>
+		
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.js"></script>
+		<script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+		<script src="HighCharts\js\themes/dark-unica.js"></script>
+		
+		
+		<!-- 2. Add the JavaScript to initialize the chart on document ready -->
+		
+		<script>
+		var windSpeedVals;
+		var windProdValss;
+		var baseLoadValss;
+		var compLoadVals;
+		var prLineLoadVals;
+		var totalLoadVals;
+		var esbProdVals;
+
+		 //Request data from the server, add it to the graph and set a timeout to request again
+		function requestWindSpData() {
+			$.ajax({
+				url: 'loadAllData.php',
+				success: function(data) {
+
+					//Set Axis Extremes
+					var chart = $('#windSpeedChart').highcharts();
+					chart.yAxis[0].setExtremes(0,30);
+					
+					// shift if the series is longer than 20
+					var series = windSpeedChart.series[0],
+					shift = series.data.length > 20;
+					
+					//Parse the Data
+					var data = eval(data);
+
+					// evaluate the data for each point - pairs of timestamp & data					
+					windSpeedVals = [data[0],data[1]];
+					
+					//Add to the various charts/series
+					windSpeedChart.series[0].addPoint(windSpeedVals, true, shift);
+					
+					// call it again after set refresh period
+					setTimeout(requestWindSpData, 7000);
+				},
+				cache: false
+			});
+		}
+
+		function requestProdData() {
+			$.ajax({
+				url: 'loadAllData.php',
+				success: function(data) {
+
+					//Set Axis Extremes
+					var chart = $('#prodChart').highcharts();
+					chart.yAxis[0].setExtremes(0,2800);
+
+					// shift if the series is longer than 20
+					var totalProdSeries = prodChart.series[0],
+					shift = totalProdSeries.data.length > 20;
+
+					//Parse the Data
+					var data = eval(data);
+
+					// evaluate the data for each point - pairs of timestamp & data					
+					windProdVals = [data[0], data[2]];
+					esbProdVals = [data[0], data[7]];
+					totalProdVals = [data[0], data[6]]
+					
+					//Add to the various charts/series
+					prodChart.series[0].addPoint(windProdVals, true, shift);
+					prodChart.series[1].addPoint(esbProdVals, true, shift);
+					prodChart.series[2].addPoint(totalProdVals, true, shift);
+
+					// call it again after set refresh period
+					setTimeout(requestProdData, 2000);
+				},
+				cache: false
+			});
+		}
+
+		function requestLoadData() {
+			$.ajax({
+				url: 'loadAllData.php',
+				success: function(data) {
+
+					//Set Axis Extremes
+					var chart = $('#loadChart').highcharts();
+					chart.yAxis[0].setExtremes(0,3000);
+
+					// shift if the series is longer than 20
+					var baseLoadSeries = loadChart.series[0],
+					shift = baseLoadSeries.data.length > 20;
+
+					//Parse the Data
+					var data = eval(data);
+
+					// evaluate the data for each point - pairs of timestamp & data					
+					baseLoadVals = [data[0], data[3]];
+					compLoadVals = [data[0], data[4]];
+					prLineLoadVals = [data[0], data[5]];
+					totalLoadVals = [data[0], data[6]];
+					
+					//Add to the various charts/series
+					loadChart.series[0].addPoint(baseLoadVals, true, shift);
+					loadChart.series[1].addPoint(compLoadVals, true, shift);
+					loadChart.series[2].addPoint(prLineLoadVals, true, shift);
+					loadChart.series[3].addPoint(totalLoadVals, true, shift);
+					
+					// call it again after set refresh period
+
+					setTimeout(requestLoadData, 2000);
+				},
+				cache: false
+			});
+		}
+
+		function requestReactorGasData() {
+			$.ajax({
+				url: 'loadAllData.php',
+				success: function(data) {
+
+					//Set Axis Extremes
+					var chart = $('#reactorGasChart').highcharts();
+					chart.yAxis[0].setExtremes(0,500);
+					
+					// shift if the series is longer than 20
+					var series = reactorGasChart.series[0],
+					shift = series.data.length > 20;
+					
+					//Parse the Data
+					var data = eval(data);
+
+					// evaluate the data for each point - pairs of timestamp & data					
+					reactorGasVals = [data[0],data[10]];
+					
+					//Add to the various charts/series
+					reactorGasChart.series[0].addPoint(reactorGasVals, true, shift);
+					
+					// call it again after set refresh period
+					setTimeout(requestReactorGasData, 7000);
+				},
+				cache: false
+			});
+		}
+
+		function requestBoilerGasData() {
+			$.ajax({
+				url: 'loadAllData.php',
+				success: function(data) {
+
+					//Set Axis Extremes
+					var chart = $('#boilerGasChart').highcharts();
+					chart.yAxis[0].setExtremes(0,600);
+					
+					// shift if the series is longer than 20
+					var series = boilerGasChart.series[0],
+					shift = series.data.length > 20;
+					
+					//Parse the Data
+					var data = eval(data);
+
+					// evaluate the data for each point - pairs of timestamp & data					
+					boilerGasVals = [data[0],data[8]];
+					
+					//Add to the various charts/series
+					boilerGasChart.series[0].addPoint(boilerGasVals, true, shift);
+					
+					// call it again after set refresh period
+					setTimeout(requestBoilerGasData, 7000);
+				},
+				cache: false
+			});
+		}
+
+		// function requestBoilerTempData() {
+		// 	$.ajax({
+		// 		url: 'loadAllData.php',
+		// 		success: function(data) {
+					
+		// 			// shift if the series is longer than 20
+		// 			var series = boilerTempChart.series[0],
+		// 			shift = series.data.length > 20;
+					
+		// 			//Parse the Data
+		// 			var data = eval(data);
+
+		// 			// evaluate the data for each point - pairs of timestamp & data					
+		// 			boilerTempVals = [data[0],data[9]];
+					
+		// 			//Add to the various charts/series
+		// 			boilerTempChart.series[0].addPoint(boilerTempVals, true, shift);
+					
+		// 			// call it again after set refresh period
+		// 			setTimeout(requestBoilerTempData, 7000);
+		// 		},
+		// 		cache: false
+		// 	});
+		// }
+
+		// function requestReactorTempData() {
+		// 	$.ajax({
+		// 		url: 'loadAllData.php',
+		// 		success: function(data) {
+					
+		// 			// shift if the series is longer than 20
+		// 			// var series = reactorTempChart.series[0],
+		// 			// shift = series.data.length > 20;
+					
+		// 			//Parse the Data
+		// 			var data = eval(data);
+
+		// 			// evaluate the data for each point - pairs of timestamp & data					
+		// 			reactorTempVals = [data[0],data[10]];
+					
+		// 			//Add to the various charts/series
+		// 			reactorTempChart.series[0].removePoint(0);
+		// 			reactorTempChart.series[0].addPoint(reactorTempVals, true);
+					
+		// 			// call it again after set refresh period
+		// 			setTimeout(requestReactorTempData, 2000);
+		// 		},
+		// 		cache: false
+		// 	});
+		// }
+
+
+      	//Draw the inital Charts - formatting
+		$(document).ready(function() {
+
+			windSpeedChart = new Highcharts.Chart({
+				chart: {
+					renderTo: 'windSpeedChart',
+					events: {
+						load: requestWindSpData
+					}
+				},
+				title: {
+					text: 'Ringaskiddy Wind Data'
+				},
+				xAxis: {
+					type: 'datetime',
+					tickPixelInterval: 150,
+					maxZoom: 20 * 1000
+				},
+				yAxis: {
+					title: {
+						text: 'WindSpeed (m/s)',
+					},
+				},
+				series: [{
+					name: 'WindSpeed',
+				}]
+			});
+
+			loadChart = new Highcharts.Chart({
+				chart: {
+					renderTo: 'loadChart',
+					events: {
+						load: requestLoadData
+					}
+				},
+				title: {
+					text: 'Current Electrical Usage'
+				},
+				xAxis: {
+					type: 'datetime',
+					tickPixelInterval: 150,
+					maxZoom: 20 * 1000
+				},
+				yAxis: {
+					title: {
+						text: 'Load (kW)',
+					},
+				},
+				series: [{
+					name: 'Base Load'
+				},{
+					name: 'Compressor'
+				},{
+					name: 'Production Line'
+				},{
+					name: 'Total Usage'
+				}]
+			});
+
+			prodChart = new Highcharts.Chart({
+				chart: {
+					renderTo: 'prodChart',
+					events: {
+						load: requestProdData
+					}
+				},
+				title: {
+					text: 'Current Electrical Sources'
+				},
+				xAxis: {
+					type: 'datetime',
+					tickPixelInterval: 150,
+					maxZoom: 20 * 1000
+				},
+				yAxis: {
+					title: {
+						text: 'Producing (kW)',
+					},
+				},
+				series: [{
+					name: 'Wind Production'
+				},{
+					name: 'Drawing from ESB'
+				},{
+					name: 'Total Electrical Usage'
+				}]
+			});
+
+			boilerGasChart = new Highcharts.Chart({
+				chart: {
+					renderTo: 'boilerGasChart',
+					events: {
+						load: requestBoilerGasData
+					}
+				},
+				title: {
+					text: 'Current Boiler Gas Usage'
+				},
+				xAxis: {
+					type: 'datetime',
+					tickPixelInterval: 150,
+					maxZoom: 20 * 1000
+				},
+				yAxis: {
+					title: {
+						text: 'Usage (kW)',
+					},
+				},
+				series: [{
+					name: 'Boiler Gas Usage'
+				}]
+			});
+
+			reactorGasChart = new Highcharts.Chart({
+				chart: {
+					renderTo: 'reactorGasChart',
+					events: {
+						load: requestReactorGasData
+					}
+				},
+				title: {
+					text: 'Current Reactor Gas Usage'
+				},
+				xAxis: {
+					type: 'datetime',
+					tickPixelInterval: 150,
+					maxZoom: 20 * 1000
+				},
+				yAxis: {
+					title: {
+						text: 'Usage (kW)',
+					},
+				},
+				series: [{
+					name: 'Reactor Gas Usage'
+				}]
+			});
+		});
+		
+		
+		</script>
+		
+	</head>
+	<body>
+		
+	<!-- Add the Chart divs -->
+      <div id="windSpeedChart" style="width: 800px; height: 400px; margin: 0 auto"></div>
+      <div id="prodChart" style="width: 800px; height: 400px; margin: 0 auto"></div>
+      <div id="loadChart" style="width: 800px; height: 400px; margin: 0 auto"></div>
+      <div id="reactorGasChart" style="width: 800px; height: 400px; margin: 0 auto"></div>
+      <div id="boilerGasChart" style="width: 800px; height: 400px; margin: 0 auto"></div>
+
+      <!-- <div id="boilerTempChart" style="width: 800px; height: 400px; margin: 0 auto"></div>
+      <div id="reactorTempChart" style="width: 800px; height: 400px; margin: 0 auto"></div> -->
+
+	</body>
+</html>

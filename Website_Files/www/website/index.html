@@ -1,0 +1,94 @@
+<html>
+<script src="d3.js"></script>
+<script src="Chart.js"></script>
+
+<head>
+<title>LED ON/OFF</title>
+</head>
+<body>
+<!-- This is just for aesthetics, centering the
+content within the paragraph -->
+<p align="center">
+<font size="8">
+
+<a href="sendData.php">click here to test php</a></br>
+<a href="dash.html">click here to test the windspeed</a></br>
+ 
+<!-- This part is a a link, which also sends a request to the php-document,
+telling it to write 1 or 0 to LEDstate.txt -->
+
+<!-- First do the compressor led - send state to compressorled.php file-->
+<b>Compressor: <a href="compressorled.php?state=1">ON</a></b> /
+<b><a href="compressorled.php?state=0">OFF</a></b></font>
+
+</p>
+
+<!-- Then do the boiler led, send state to boilerled.php file-->
+
+<p align="center">
+<font size="8">
+
+<b>Boiler: <a href="boilerled.php?state=1">ON</a></b> /
+<b><a href="boilerled.php?state=0">OFF</a></b></font>
+
+</p>
+
+<!--Then the reactor led, send state to reactorled.php file-->
+
+<p align="center">
+<font size="8">
+
+<b>Reactor: <a href="reactorled.php?state=1">ON</a></b> /
+<b><a href="reactorled.php?state=0">OFF</a></b></font>
+
+</p>
+
+<!-- Then the fischer technik led, send state to fischerled.php file-->
+
+<p align="center">
+<font size="8">
+
+<b>Production Line: <a href="fischerled.php?state=1">ON</a></b> /
+<b><a href="fischerled.php?state=0">OFF</a></b></font>
+
+</p>
+
+<!-- Then the wind led, send state to windled.php file-->
+
+<p align="center">
+<font size="8">
+
+<b>Wind: <a href="windled.php?state=0">None</a></b> /
+<b><a href="windled.php?state=1">Available</a></b> /
+<b><a href="windled.php?state=2">In Use</a></b></font>
+
+</p>
+
+<!-- Then the grid led, send state to gridled.php file-->
+
+<p align="center">
+<font size="8">
+
+<b>Grid: <a href="gridled.php?state=0">Down</a></b> /
+<b><a href="gridled.php?state=1">Available</a></b> /
+<b><a href="gridled.php?state=2">In Use</a></b></font>
+
+</p>
+
+<p align="center">
+<img src="Images/IERG_Logo.jpg" alt="Me" style="width:200px;height:132px">
+
+<img src="Images/Transparent.gif" alt="Me" style="width:98px;height:98px">
+
+
+<img src="Images/MaREI_Logo.jpg" alt="Me" style="width:200px;height:116px">
+
+<img src="Images/Transparent.gif" alt="Me" style="width:98px;height:98px">
+
+
+<img src="Images/UCC_Logo.png" alt="Me" style="width:200px;height:98px">
+</p>
+
+</body>
+
+</html>

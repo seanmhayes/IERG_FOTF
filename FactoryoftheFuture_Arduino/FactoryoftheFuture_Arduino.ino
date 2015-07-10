@@ -1,14 +1,17 @@
 //  Energy sources use rgb leds to show whether they are not available, ready to be used, or being used
 
-//  Wind
-const int windNoneledPin = 11; // use rgb led in red for this to show states of energy source - none
-const int windReadyledPin = 10; // use rgb led in blue for this to show states of energy source - not in use
-const int windUsedledPin = 9; // use rgb led in green for this to show states of energy source - being used
 
-//  Grid
-const int gridNoneledPin = 6; // use rgb led in red for this to show states of energy source - none
-const int gridReadyledPin = 5; // use rgb led in blue for this to show states of energy source - not in use
-const int gridUsedledPin = 3; // use rgb led in green for this to show states of energy source - being used
+// The below block of code is a relic from when the plan was to have rgb leds for wind and grid elec. It can be brought back into play if needs be.
+
+////  Wind
+//const int windNoneledPin = 11; // use rgb led in red for this to show states of energy source - none
+//const int windReadyledPin = 10; // use rgb led in blue for this to show states of energy source - not in use
+//const int windUsedledPin = 9; // use rgb led in green for this to show states of energy source - being used
+//
+////  Grid
+//const int gridNoneledPin = 6; // use rgb led in red for this to show states of energy source - none
+//const int gridReadyledPin = 5; // use rgb led in blue for this to show states of energy source - not in use
+//const int gridUsedledPin = 3; // use rgb led in green for this to show states of energy source - being used
 
 
 //  Utility equipment uses red leds, on for on, off for off
@@ -18,6 +21,10 @@ const int boilerledPin = 12; //// use red led for utility equipment
 //  Factory equipment uses green leds, on for on, off for off
 const int reactorledPin = 8; // use green led for factory equipment
 const int fischerledPin = 7; // use green led for factory equipment
+
+// Wind and grid elec use green leds, on for on, off for off
+const int windledPin = 11;
+const int gridledPin = 6;
 
 int incomingByte;      // a variable to read incoming serial data into
  
@@ -29,9 +36,13 @@ void setup() {
   pinMode(boilerledPin, OUTPUT);
   pinMode(reactorledPin, OUTPUT);
   pinMode(fischerledPin, OUTPUT);
+  pinMode(windledPin, OUTPUT);
+  pinMode(gridledPin, OUTPUT);
+/* relic to brought into use when wind is displayed with an rgb led
   pinMode(windNoneledPin, OUTPUT);
   pinMode(windReadyledPin, OUTPUT);
   pinMode(windUsedledPin, OUTPUT);
+  */
 }
  
 void loop() {
@@ -76,6 +87,26 @@ void loop() {
       digitalWrite(fischerledPin, LOW);
     }
     
+    // if byte = I turn on wind
+    if (incomingByte == 'I') {
+      digitalWrite(windledPin, HIGH);
+    }
+    // if it's a J turn off wind:
+    if (incomingByte == 'J') {
+      digitalWrite(windledPin, LOW);
+    }
+   
+    // if byte = L turn on grid
+    if (incomingByte == 'L') {
+      digitalWrite(gridledPin, HIGH);
+    }
+    // if it's an M (ASCII 76) turn off the fischer LED:
+    if (incomingByte == 'M') {
+      digitalWrite(gridledPin, LOW);
+    } 
+    
+    /* relic for grid and wind to be displayed via rgb leds
+    
     // if byte = I turn wind red and other wind off
     if (incomingByte == 'I') {
       digitalWrite(windNoneledPin, HIGH);
@@ -117,6 +148,7 @@ void loop() {
       digitalWrite(gridReadyledPin, LOW);
       digitalWrite(gridUsedledPin, HIGH);
     }
+    */
     
   }
 }

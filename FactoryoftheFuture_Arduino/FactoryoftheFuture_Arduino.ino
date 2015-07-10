@@ -59,6 +59,11 @@ void loop() {
       digitalWrite(compressorledPin, LOW);
     }
     
+    
+// turn boiler led on
+digitalWrite(boilerledPin, HIGH);
+    
+/* relic from when boiler was able to be turned on and off from dashboard
     //  if byte = C turn boiler on
     if (incomingByte == 'C') {
       digitalWrite(boilerledPin, HIGH);
@@ -67,8 +72,13 @@ void loop() {
     if (incomingByte == 'D') {
       digitalWrite(boilerledPin, LOW);
     }
+ */
+  
+  
+ // turn reactor on
+digitalWrite(reactorledPin, HIGH);
     
-    
+ /* relic from when reactor was able to be turned on and off from dashboard
     // if byte = E turn reactor on
     if (incomingByte == 'E') {
       digitalWrite(reactorledPin, HIGH);
@@ -77,6 +87,7 @@ void loop() {
     if (incomingByte == 'F') {
       digitalWrite(reactorledPin, LOW);
     }
+*/
     
     // if byte = G turn on fischer
     if (incomingByte == 'G') {

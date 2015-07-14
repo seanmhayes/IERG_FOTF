@@ -2,15 +2,15 @@
 $i = 0;
 session_start();
 
+//******Check if the variables have already been set for this WebServer Session. If not, set them.*****
+//Increment "Line" to parse next line of CSV each time this PHP script is called
 $_SESSION['line'] = isset($_SESSION['line']) ? ++$_SESSION['line'] : 0;
 $_SESSION['windSp'] = isset($_SESSION['windSp']) ? $_SESSION['windSp'] : "lo";
 $_SESSION['prLine'] = isset($_SESSION['prLine']) ? $_SESSION['prLine'] : "off";
 $_SESSION['comp'] = isset($_SESSION['comp']) ? $_SESSION['comp'] : "on";
 
-
 //Load the Data from the next line of CSV file
 $handle = fopen('data\allData.csv', 'r');
-
 while(($dataVals = fgetcsv($handle, 1000, ',')) && $i <= $_SESSION['line']) {
     $i++;
 }
@@ -18,12 +18,13 @@ if(!$dataVals) {
    $_SESSION['line'] = 0;
 }
 
-
+//Set the Time to be GMT +1 (ie daylight savings)
 header("Content-type: text/json");
 date_default_timezone_set('EUROPE/HELSINKI');
 $time = (time()+3600)*1000;
 
-//Check if there's been any changes from Dashboard to WindSpeed, Prod. Line, etc. and initialise values
+//Check if there's been any changes from Dashboard to WindSpeed, Prod. Line, etc. and initialise values.
+//$POST is checking whether they've been updated by a HTTP POST request from the Dashboard Page Ajax code
 if (isset($_POST['windSp'])) {
 	$_SESSION['windSp'] = $_POST['windSp'];
 }
@@ -36,8 +37,7 @@ if (isset($_POST['comp'])) {
 	$_SESSION['comp'] = $_POST['comp'];
 }
 
-// Set Variables depending on the above
-
+// Set Variables depending on the above. dataVals stores an array of columns from the current row of the CSV
 if ($_SESSION['windSp'] == "lo") {
  	$windSp = (float)$dataVals[0];
  	$windProd = (float)$dataVals[2];
